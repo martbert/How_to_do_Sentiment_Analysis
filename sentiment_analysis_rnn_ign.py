@@ -160,9 +160,9 @@ def build_model():
     
     net = tflearn.input_data([None, X.shape[1]])
     net = tflearn.embedding(net, input_dim=10000, output_dim=128)
-    net = tflearn.lstm(net, 128, dropout=0.8)
+    net = tflearn.lstm(net, 128, dropout=0.6)
     net = tflearn.fully_connected(net, 3, activation='softmax')
-    net = tflearn.regression(net, optimizer='adam', learning_rate=0.001,
+    net = tflearn.regression(net, optimizer='adam', learning_rate=0.01,
                              loss='categorical_crossentropy')
     
     return net
@@ -175,10 +175,7 @@ def build_model():
 net = build_model()
 model = tflearn.DNN(net, tensorboard_verbose=0)
 model.fit(trainX, trainY, validation_set=(testX, testY), show_metric=True,
-          n_epoch=50, batch_size=32)
+          n_epoch=30, batch_size=32)
 
 # Save model
 model.save('sentiment_analysis_rnn.tflearn')
-
-
-
